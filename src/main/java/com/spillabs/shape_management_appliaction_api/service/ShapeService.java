@@ -64,6 +64,13 @@ public class ShapeService {
         Shape existing = shapeRepository.findById(id)
                 .orElseThrow(() -> new ShapeNotFoundException("Shape not found with ID: " + id));
 
+        shapeRepository.findByName(shapeRequest.getName())
+                .ifPresent(shapeWithSameName -> {
+                    if (!shapeWithSameName.getId().equals(id)) {
+                        throw new InvalidShapeException("Another shape with the same name already exists");
+                    }
+                });
+
         validate(shapeRequest);
 
         ShapeType shapeType = ShapeType.fromString(shapeRequest.getType());
