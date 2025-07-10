@@ -47,6 +47,18 @@ public class GlobalExceptionHandler {
                 .body(buildError(HttpStatus.NOT_FOUND, "User not found", request));
     }
 
+    @ExceptionHandler(ShapeNotFoundException.class)
+    public ResponseEntity<ApiError> handleShapeNotFound(ShapeNotFoundException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(buildError(HttpStatus.NOT_FOUND, e.getMessage(), request));
+    }
+
+    @ExceptionHandler(InvalidShapeException.class)
+    public ResponseEntity<ApiError> handleInvalidShape(InvalidShapeException e, HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(buildError(HttpStatus.BAD_REQUEST, e.getMessage(), request));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> handleValidationErrors(MethodArgumentNotValidException e, HttpServletRequest request) {
         Map<String, String> errors = new HashMap<>();
@@ -67,6 +79,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiError> handleGeneric(Exception e, HttpServletRequest request) {
+        e.printStackTrace();
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong", request));
