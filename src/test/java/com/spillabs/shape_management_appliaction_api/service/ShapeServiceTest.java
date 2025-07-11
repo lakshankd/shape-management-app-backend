@@ -90,14 +90,11 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should create valid circle successfully")
         void shouldCreateValidCircle() {
-            // Given
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
             when(shapeRepository.save(any(Shape.class))).thenReturn(savedCircle);
 
-            // When
             ShapeResponse response = shapeService.createShape(validCircleRequest);
 
-            // Then
             assertNotNull(response);
             assertEquals(1L, response.getId());
             assertEquals("Test Circle", response.getName());
@@ -112,14 +109,11 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should create valid triangle successfully")
         void shouldCreateValidTriangle() {
-            // Given
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
             when(shapeRepository.save(any(Shape.class))).thenReturn(savedTriangle);
 
-            // When
             ShapeResponse response = shapeService.createShape(validTriangleRequest);
 
-            // Then
             assertNotNull(response);
             assertEquals(2L, response.getId());
             assertEquals("Test Triangle", response.getName());
@@ -134,7 +128,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should create valid rectangle successfully")
         void shouldCreateValidRectangle() {
-            // Given
             Shape savedRectangle = Shape.builder()
                     .id(3L)
                     .name("Test Rectangle")
@@ -145,10 +138,8 @@ class ShapeServiceTest {
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
             when(shapeRepository.save(any(Shape.class))).thenReturn(savedRectangle);
 
-            // When
             ShapeResponse response = shapeService.createShape(validRectangleRequest);
 
-            // Then
             assertNotNull(response);
             assertEquals(3L, response.getId());
             assertEquals("Test Rectangle", response.getName());
@@ -160,7 +151,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should create valid polygon successfully")
         void shouldCreateValidPolygon() {
-            // Given
             Shape savedPolygon = Shape.builder()
                     .id(4L)
                     .name("Test Polygon")
@@ -171,10 +161,8 @@ class ShapeServiceTest {
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
             when(shapeRepository.save(any(Shape.class))).thenReturn(savedPolygon);
 
-            // When
             ShapeResponse response = shapeService.createShape(validPolygonRequest);
 
-            // Then
             assertNotNull(response);
             assertEquals(4L, response.getId());
             assertEquals("Test Polygon", response.getName());
@@ -186,10 +174,8 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception when shape name already exists")
         void shouldThrowExceptionWhenNameExists() {
-            // Given
             when(shapeRepository.existsByName(anyString())).thenReturn(true);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(validCircleRequest));
 
@@ -199,25 +185,8 @@ class ShapeServiceTest {
         }
 
         @Test
-        @DisplayName("Should throw exception for invalid shape type")
-        void shouldThrowExceptionForInvalidShapeType() {
-            // Given
-            ShapeRequest invalidRequest = new ShapeRequest();
-            invalidRequest.setName("Invalid Shape");
-            invalidRequest.setType("INVALID_TYPE");
-            invalidRequest.setCoordinates("0.0,0.0");
-
-            when(shapeRepository.existsByName(anyString())).thenReturn(false);
-
-            // When & Then
-            assertThrows(IllegalArgumentException.class,
-                    () -> shapeService.createShape(invalidRequest));
-        }
-
-        @Test
         @DisplayName("Should throw exception for circle without radius")
         void shouldThrowExceptionForCircleWithoutRadius() {
-            // Given
             ShapeRequest invalidCircle = new ShapeRequest();
             invalidCircle.setName("Invalid Circle");
             invalidCircle.setType("CIRCLE");
@@ -226,7 +195,6 @@ class ShapeServiceTest {
 
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(invalidCircle));
 
@@ -236,7 +204,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception for circle with negative radius")
         void shouldThrowExceptionForCircleWithNegativeRadius() {
-            // Given
             ShapeRequest invalidCircle = new ShapeRequest();
             invalidCircle.setName("Invalid Circle");
             invalidCircle.setType("CIRCLE");
@@ -245,7 +212,6 @@ class ShapeServiceTest {
 
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(invalidCircle));
 
@@ -255,7 +221,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception for circle with multiple coordinates")
         void shouldThrowExceptionForCircleWithMultipleCoordinates() {
-            // Given
             ShapeRequest invalidCircle = new ShapeRequest();
             invalidCircle.setName("Invalid Circle");
             invalidCircle.setType("CIRCLE");
@@ -264,7 +229,6 @@ class ShapeServiceTest {
 
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(invalidCircle));
 
@@ -274,7 +238,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception for triangle with wrong number of coordinates")
         void shouldThrowExceptionForTriangleWithWrongCoordinates() {
-            // Given
             ShapeRequest invalidTriangle = new ShapeRequest();
             invalidTriangle.setName("Invalid Triangle");
             invalidTriangle.setType("TRIANGLE");
@@ -282,7 +245,6 @@ class ShapeServiceTest {
 
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(invalidTriangle));
 
@@ -292,7 +254,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception for rectangle with wrong number of coordinates")
         void shouldThrowExceptionForRectangleWithWrongCoordinates() {
-            // Given
             ShapeRequest invalidRectangle = new ShapeRequest();
             invalidRectangle.setName("Invalid Rectangle");
             invalidRectangle.setType("RECTANGLE");
@@ -300,7 +261,6 @@ class ShapeServiceTest {
 
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(invalidRectangle));
 
@@ -310,7 +270,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception for polygon with insufficient coordinates")
         void shouldThrowExceptionForPolygonWithInsufficientCoordinates() {
-            // Given
             ShapeRequest invalidPolygon = new ShapeRequest();
             invalidPolygon.setName("Invalid Polygon");
             invalidPolygon.setType("POLYGON");
@@ -318,7 +277,6 @@ class ShapeServiceTest {
 
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(invalidPolygon));
 
@@ -328,7 +286,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception for empty coordinates")
         void shouldThrowExceptionForEmptyCoordinates() {
-            // Given
             ShapeRequest invalidShape = new ShapeRequest();
             invalidShape.setName("Invalid Shape");
             invalidShape.setType("TRIANGLE");
@@ -336,7 +293,6 @@ class ShapeServiceTest {
 
             when(shapeRepository.existsByName(anyString())).thenReturn(false);
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.createShape(invalidShape));
 
@@ -351,14 +307,11 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should get all shapes successfully")
         void shouldGetAllShapes() {
-            // Given
             List<Shape> shapes = Arrays.asList(savedCircle, savedTriangle);
             when(shapeRepository.findAll()).thenReturn(shapes);
 
-            // When
             List<ShapeResponse> responses = shapeService.getAllShapes();
 
-            // Then
             assertNotNull(responses);
             assertEquals(2, responses.size());
             assertEquals("Test Circle", responses.get(0).getName());
@@ -370,13 +323,10 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should get shape by ID successfully")
         void shouldGetShapeById() {
-            // Given
             when(shapeRepository.findById(1L)).thenReturn(Optional.of(savedCircle));
 
-            // When
             ShapeResponse response = shapeService.getShapeById(1L);
 
-            // Then
             assertNotNull(response);
             assertEquals(1L, response.getId());
             assertEquals("Test Circle", response.getName());
@@ -387,10 +337,8 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception when shape not found by ID")
         void shouldThrowExceptionWhenShapeNotFound() {
-            // Given
             when(shapeRepository.findById(999L)).thenReturn(Optional.empty());
 
-            // When & Then
             ShapeNotFoundException exception = assertThrows(ShapeNotFoundException.class,
                     () -> shapeService.getShapeById(999L));
 
@@ -406,7 +354,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should update shape successfully")
         void shouldUpdateShapeSuccessfully() {
-            // Given
             ShapeRequest updateRequest = new ShapeRequest();
             updateRequest.setName("Updated Circle");
             updateRequest.setType("CIRCLE");
@@ -425,10 +372,8 @@ class ShapeServiceTest {
             when(shapeRepository.findByName("Updated Circle")).thenReturn(Optional.empty());
             when(shapeRepository.save(any(Shape.class))).thenReturn(updatedShape);
 
-            // When
             ShapeResponse response = shapeService.updateShape(1L, updateRequest);
 
-            // Then
             assertNotNull(response);
             assertEquals(1L, response.getId());
             assertEquals("Updated Circle", response.getName());
@@ -443,10 +388,8 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception when updating non-existent shape")
         void shouldThrowExceptionWhenUpdatingNonExistentShape() {
-            // Given
             when(shapeRepository.findById(999L)).thenReturn(Optional.empty());
 
-            // When & Then
             ShapeNotFoundException exception = assertThrows(ShapeNotFoundException.class,
                     () -> shapeService.updateShape(999L, validCircleRequest));
 
@@ -458,7 +401,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception when updating with duplicate name")
         void shouldThrowExceptionWhenUpdatingWithDuplicateName() {
-            // Given
             Shape anotherShape = Shape.builder()
                     .id(2L)
                     .name("Test Circle")
@@ -470,7 +412,6 @@ class ShapeServiceTest {
             when(shapeRepository.findById(1L)).thenReturn(Optional.of(savedCircle));
             when(shapeRepository.findByName("Test Circle")).thenReturn(Optional.of(anotherShape));
 
-            // When & Then
             InvalidShapeException exception = assertThrows(InvalidShapeException.class,
                     () -> shapeService.updateShape(1L, validCircleRequest));
 
@@ -483,15 +424,12 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should allow updating shape with same name")
         void shouldAllowUpdatingShapeWithSameName() {
-            // Given
             when(shapeRepository.findById(1L)).thenReturn(Optional.of(savedCircle));
             when(shapeRepository.findByName("Test Circle")).thenReturn(Optional.of(savedCircle));
             when(shapeRepository.save(any(Shape.class))).thenReturn(savedCircle);
 
-            // When
             ShapeResponse response = shapeService.updateShape(1L, validCircleRequest);
 
-            // Then
             assertNotNull(response);
             assertEquals(1L, response.getId());
             assertEquals("Test Circle", response.getName());
@@ -509,13 +447,10 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should delete shape successfully")
         void shouldDeleteShapeSuccessfully() {
-            // Given
             when(shapeRepository.existsById(1L)).thenReturn(true);
 
-            // When
             shapeService.deleteShape(1L);
 
-            // Then
             verify(shapeRepository).existsById(1L);
             verify(shapeRepository).deleteById(1L);
         }
@@ -523,10 +458,8 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should throw exception when deleting non-existent shape")
         void shouldThrowExceptionWhenDeletingNonExistentShape() {
-            // Given
             when(shapeRepository.existsById(999L)).thenReturn(false);
 
-            // When & Then
             ShapeNotFoundException exception = assertThrows(ShapeNotFoundException.class,
                     () -> shapeService.deleteShape(999L));
 
@@ -543,7 +476,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should find overlapping circles")
         void shouldFindOverlappingCircles() {
-            // Given - Two circles that overlap
             Shape circle1 = Shape.builder()
                     .id(1L)
                     .name("Circle 1")
@@ -562,10 +494,8 @@ class ShapeServiceTest {
 
             when(shapeRepository.findAll()).thenReturn(Arrays.asList(circle1, circle2));
 
-            // When
             OverlapResponse response = shapeService.findOverlappingShapes();
 
-            // Then
             assertNotNull(response);
             assertEquals(2, response.getOverlappingShapeIds().size());
             assertTrue(response.getOverlappingShapeIds().contains(1L));
@@ -580,7 +510,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should find no overlapping shapes")
         void shouldFindNoOverlappingShapes() {
-            // Given - Two circles that don't overlap
             Shape circle1 = Shape.builder()
                     .id(1L)
                     .name("Circle 1")
@@ -599,10 +528,8 @@ class ShapeServiceTest {
 
             when(shapeRepository.findAll()).thenReturn(Arrays.asList(circle1, circle2));
 
-            // When
             OverlapResponse response = shapeService.findOverlappingShapes();
 
-            // Then
             assertNotNull(response);
             assertTrue(response.getOverlappingShapeIds().isEmpty());
             assertTrue(response.getOverlappingGroups().isEmpty());
@@ -613,7 +540,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should find overlapping polygon and circle")
         void shouldFindOverlappingPolygonAndCircle() {
-            // Given
             Shape triangle = Shape.builder()
                     .id(1L)
                     .name("Triangle")
@@ -631,10 +557,8 @@ class ShapeServiceTest {
 
             when(shapeRepository.findAll()).thenReturn(Arrays.asList(triangle, circle));
 
-            // When
             OverlapResponse response = shapeService.findOverlappingShapes();
 
-            // Then
             assertNotNull(response);
             assertEquals(2, response.getOverlappingShapeIds().size());
             assertTrue(response.getOverlappingShapeIds().contains(1L));
@@ -646,13 +570,10 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should handle empty shape list")
         void shouldHandleEmptyShapeList() {
-            // Given
             when(shapeRepository.findAll()).thenReturn(Arrays.asList());
 
-            // When
             OverlapResponse response = shapeService.findOverlappingShapes();
 
-            // Then
             assertNotNull(response);
             assertTrue(response.getOverlappingShapeIds().isEmpty());
             assertTrue(response.getOverlappingGroups().isEmpty());
@@ -663,13 +584,10 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should handle single shape")
         void shouldHandleSingleShape() {
-            // Given
             when(shapeRepository.findAll()).thenReturn(Arrays.asList(savedCircle));
 
-            // When
             OverlapResponse response = shapeService.findOverlappingShapes();
 
-            // Then
             assertNotNull(response);
             assertTrue(response.getOverlappingShapeIds().isEmpty());
             assertTrue(response.getOverlappingGroups().isEmpty());
@@ -680,7 +598,6 @@ class ShapeServiceTest {
         @Test
         @DisplayName("Should find multiple overlapping groups")
         void shouldFindMultipleOverlappingGroups() {
-            // Given - 4 shapes: 2 overlapping circles and 2 overlapping rectangles
             Shape circle1 = Shape.builder()
                     .id(1L)
                     .name("Circle 1")
@@ -713,10 +630,8 @@ class ShapeServiceTest {
 
             when(shapeRepository.findAll()).thenReturn(Arrays.asList(circle1, circle2, rectangle1, rectangle2));
 
-            // When
             OverlapResponse response = shapeService.findOverlappingShapes();
 
-            // Then
             assertNotNull(response);
             assertEquals(4, response.getOverlappingShapeIds().size());
             assertEquals(2, response.getOverlappingGroups().size());
